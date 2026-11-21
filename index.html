@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Clone</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+  <div class="logo" onclick="showPage('home')">
+    <span>▶</span> YouTube
+  </div>
+
+  <div class="search">
+    <input id="searchInput" placeholder="Search">
+    <button onclick="searchVideos()">🔍</button>
+  </div>
+
+  <div class="header-actions">
+    <button onclick="toggleTheme()" title="Change theme">🌙</button>
+    <button onclick="showPage('profile')">👤</button>
+    <button onclick="showPage('notifications')">🔔</button>
+    <button class="upload" onclick="showPage('upload')">＋ Upload</button>
+  </div>
+</header>
+
+<aside class="sidebar" id="sidebar">
+  <button onclick="showPage('home')">🏠 Home</button>
+  <button onclick="showPage('shorts')">🎬 Shorts</button>
+  <button onclick="showPage('trending')">🔥 Trending</button>
+  <button onclick="showPage('subscriptions')">📺 Subscriptions</button>
+  <hr>
+  <button onclick="showPage('history')">🕘 History</button>
+  <button onclick="showPage('playlists')">📁 Playlists</button>
+  <button onclick="showPage('liked')">👍 Liked videos</button>
+  <button onclick="showPage('profile')">👤 Your channel</button>
+</aside>
+
+<main id="main">
+
+  <section id="home" class="page">
+    <div class="categories">
+      <button onclick="filterVideos('all')">All</button>
+      <button onclick="filterVideos('gaming')">Gaming</button>
+      <button onclick="filterVideos('music')">Music</button>
+      <button onclick="filterVideos('funny')">Funny</button>
+    </div>
+    <h2>Recommended videos</h2>
+    <div id="videoGrid" class="video-grid"></div>
+  </section>
+
+  <section id="shorts" class="page" hidden>
+    <h1>🎬 YouTube Shorts</h1>
+    <div id="shortsGrid" class="shorts-grid"></div>
+  </section>
+
+  <section id="trending" class="page" hidden>
+    <h1>🔥 Trending</h1>
+    <div id="trendingGrid" class="video-grid"></div>
+  </section>
+
+  <section id="subscriptions" class="page" hidden>
+    <h1>📺 Subscriptions</h1>
+    <div id="subscriptionsGrid" class="video-grid"></div>
+  </section>
+
+  <section id="history" class="page" hidden>
+    <h1>🕘 Watch History</h1>
+    <button onclick="clearHistory()">Clear history</button>
+    <div id="historyGrid" class="video-grid"></div>
+  </section>
+
+  <section id="liked" class="page" hidden>
+    <h1>👍 Liked Videos</h1>
+    <div id="likedGrid" class="video-grid"></div>
+  </section>
+
+  <section id="playlists" class="page" hidden>
+    <h1>📁 My Playlists</h1>
+    <input id="playlistName" placeholder="New playlist name">
+    <button onclick="createPlaylist()">Create Playlist</button>
+    <div id="playlistGrid"></div>
+  </section>
+
+  <section id="profile" class="page" hidden>
+    <div class="profile-banner"></div>
+    <div class="profile-info">
+      <div class="avatar" id="profileAvatar">U</div>
+      <div>
+        <h1 id="profileName">Your Channel</h1>
+        <p id="profileStats">0 subscribers</p>
+        <button onclick="editProfile()">Edit channel</button>
+      </div>
+    </div>
+    <h2>Your videos</h2>
+    <div id="profileVideos" class="video-grid"></div>
+  </section>
+
+  <section id="channel" class="page" hidden>
+    <div class="profile-banner"></div>
+    <div class="profile-info">
+      <div class="avatar" id="channelAvatar">C</div>
+      <div>
+        <h1 id="channelName">Channel</h1>
+        <p id="channelStats"></p>
+        <button id="subscribeButton" onclick="toggleSubscribe()">Subscribe</button>
+      </div>
+    </div>
+    <h2>Videos</h2>
+    <div id="channelVideos" class="video-grid"></div>
+  </section>
+
+  <section id="upload" class="page" hidden>
+    <h1>Upload video</h1>
+    <div class="upload-form">
+      <label>Video title</label>
+      <input id="uploadTitle" placeholder="Enter video title">
+
+      <label>Description</label>
+      <textarea id="uploadDescription" placeholder="Describe your video"></textarea>
+
+      <label>Category</label>
+      <select id="uploadCategory">
+        <option value="gaming">Gaming</option>
+        <option value="music">Music</option>
+        <option value="funny">Funny</option>
+        <option value="other">Other</option>
+      </select>
+
+      <label>Video file</label>
+      <input type="file" id="videoFile" accept="video/*">
+
+      <label>Custom thumbnail</label>
+      <input type="file" id="thumbnailFile" accept="image/*">
+
+      <label>
+        <input type="checkbox" id="isShort">
+        Upload as a Short
+      </label>
+
+      <button onclick="uploadVideo()">Publish video</button>
+    </div>
+  </section>
+
+  <section id="notifications" class="page" hidden>
+    <h1>🔔 Notifications</h1>
+    <div id="notificationList"></div>
+  </section>
+
+  <section id="watch" class="page" hidden>
+    <div class="watch-layout">
+      <div class="watch-main">
+        <video id="videoPlayer" controls></video>
+        <h2 id="watchTitle"></h2>
+        <div class="watch-actions">
+          <button onclick="likeVideo()">👍 <span id="likeCount">0</span></button>
+          <button onclick="dislikeVideo()">👎 <span id="dislikeCount">0</span></button>
+        </div>
+        <div class="channel-bar">
+          <div class="avatar" id="watchAvatar">C</div>
+          <div>
+            <strong id="watchChannel"></strong>
+            <p id="watchSubscribers"></p>
+          </div>
+          <button id="watchSubscribe" onclick="toggleSubscribe()">Subscribe</button>
+        </div>
+        <div class="description-box">
+          <strong id="watchViews"></strong>
+          <p id="watchDescription"></p>
+        </div>
+        <h3>Comments</h3>
+        <div class="comment-form">
+          <input id="commentInput" placeholder="Add a comment...">
+          <button onclick="addComment()">Comment</button>
+        </div>
+        <div id="commentList"></div>
+      </div>
+      <div class="watch-recommendations">
+        <h3>Recommended</h3>
+        <div id="recommendations"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
