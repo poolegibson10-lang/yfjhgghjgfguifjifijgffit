@@ -11,8 +11,8 @@
 
 <header class="navbar">
   <button class="menu-btn" onclick="toggleSidebar()">☰</button>
-  <div class="logo" onclick="showPage('home')">
-    <span>▶</span> YouTube
+  <div class="brand" onclick="showPage('home')" aria-label="Go to home">
+    <span class="brand-mark">▶</span><span class="brand-name">YouTube</span>
   </div>
 
   <div class="search">
@@ -21,10 +21,10 @@
   </div>
 
   <div class="header-actions">
-    <button onclick="toggleTheme()" title="Change theme">🌙</button>
-    <button onclick="showPage('profile')">👤</button>
-    <button onclick="showPage('notifications')">🔔</button>
-    <button class="upload" onclick="showPage('upload')">＋ Upload</button>
+    <button class="create-button" onclick="showPage('upload')">＋ Create</button>
+    <button class="icon-button" onclick="showPage('notifications')" title="Notifications">🔔</button>
+    <button class="icon-button" onclick="toggleTheme()" title="Change theme">🌙</button>
+    <button class="profile-button" onclick="showPage('profile')" title="Your channel">U</button>
   </div>
 </header>
 
@@ -44,10 +44,11 @@
 
   <section id="home" class="page">
     <div class="categories">
-      <button onclick="filterVideos('all')">All</button>
+      <button class="selected" onclick="filterVideos('all')">All</button>
       <button onclick="filterVideos('gaming')">Gaming</button>
       <button onclick="filterVideos('music')">Music</button>
       <button onclick="filterVideos('funny')">Funny</button>
+      <button onclick="filterVideos('other')">Other</button>
     </div>
     <h2>Recommended videos</h2>
     <div id="videoGrid" class="video-grid"></div>
